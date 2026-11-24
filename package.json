@@ -1,0 +1,45 @@
+{
+  "name": "dr-zara-iqbal-khan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal brand website for Dr. Zara Iqbal Khan — Dermatologist & Aesthetic Physician, Riyadh.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "sanity": "sanity dev",
+    "sanity:deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.0.6",
+    "@react-three/fiber": "^9.1.2",
+    "@sanity/vision": "^3.75.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.4.7",
+    "gsap": "^3.12.7",
+    "lucide-react": "^0.475.0",
+    "next": "^16.4.6",
+    "next-sanity": "^9.12.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sanity": "^3.75.0",
+    "styled-components": "^6.1.15",
+    "tailwind-merge": "^2.6.0",
+    "three": "^0.174.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/three": "^0.174.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^10.15.0",
+    "eslint-config-next": "^16.4.6",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  }
+}
