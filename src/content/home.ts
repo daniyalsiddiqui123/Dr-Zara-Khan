@@ -80,45 +80,6 @@ export const homeContent: HomeContent = {
       }
     ]
   },
-  three: {
-    eyebrow: { en: "A closer look", ar: "نظرة أقرب" },
-    heading: {
-      en: "The architecture of skin.",
-      ar: "هندسة البشرة."
-    },
-    body: {
-      en: "Skin is a layered, living structure. Understanding those layers is the foundation of every considered treatment — from barrier repair to collagen stimulation. Scroll to move through the strata.",
-      ar: "البشرة بنية حيّة متعددة الطبقات. فهم هذه الطبقات هو أساس كل علاج مدروس — من إصلاح الحاجز الواقي إلى تحفيز الكولاجين. مرّر للتنقل بين الطبقات."
-    },
-    hint: { en: "Scroll to explore", ar: "مرّر للاستكشاف" },
-    disclaimer: {
-      en: "Stylised visualisation for education only. It is not an anatomically accurate diagnostic model.",
-      ar: "تصوّر أسلوبي لأغراض تعليمية فقط، وليس نموذجًا تشخيصيًا دقيقًا من الناحية التشريحية."
-    },
-    layers: [
-      {
-        name: { en: "Epidermis", ar: "البشرة" },
-        detail: {
-          en: "The outer, protective layer. Its barrier retains water and defends against irritants, UV and pollution.",
-          ar: "الطبقة الخارجية الواقية. يحتفظ حاجزها بالماء ويحمي من المهيّجات والأشعة فوق البنفسجية والتلوث."
-        }
-      },
-      {
-        name: { en: "Dermis", ar: "الأدمة" },
-        detail: {
-          en: "The structural layer, rich in collagen, elastin and blood vessels. Firmness, texture and repair begin here.",
-          ar: "الطبقة البنيوية الغنية بالكولاجين والإيلاستين والأوعية الدموية. منها تبدأ المتانة والملمس والتعافي."
-        }
-      },
-      {
-        name: { en: "Subcutaneous tissue", ar: "النسيج تحت الجلد" },
-        detail: {
-          en: "The deeper cushion of fat and connective tissue that supports volume, insulation and underlying structure.",
-          ar: "الوسادة الأعمق من الدهون والنسيج الضام التي تدعم الحجم والعزل والبنية التحتية."
-        }
-      }
-    ]
-  }
 };
 
 export const editorialQuote = {

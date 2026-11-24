@@ -99,8 +99,11 @@ export interface Dictionary {
     treatment: string;
     message: string;
     submit: string;
+    sending: string;
     note: string;
     success: string;
+    fallback: string;
+    sendError: string;
     invalid: string;
     required: string;
     directTitle: string;
@@ -191,9 +194,12 @@ const en: Dictionary = {
     phone: "Phone (optional)",
     treatment: "Area of interest",
     message: "How can we help?",
-    submit: "Prepare enquiry",
-    note: "Submitting opens your email app with a prepared message — nothing is sent automatically.",
-    success: "Your email app should now be open with the enquiry prepared.",
+    submit: "Send enquiry",
+    sending: "Sending…",
+    note: "Your enquiry is sent directly to the practice. We reply by email.",
+    success: "Thank you — your enquiry has been sent. We will reply by email.",
+    fallback: "Opening your email app so you can finish sending your enquiry.",
+    sendError: "We could not send your enquiry. Please try again, or contact us on WhatsApp.",
     invalid: "Please check the highlighted fields and try again.",
     required: "This field is required.",
     directTitle: "Direct contact",
@@ -286,9 +292,12 @@ const ar: Dictionary = {
     phone: "الهاتف (اختياري)",
     treatment: "مجال الاهتمام",
     message: "كيف يمكننا المساعدة؟",
-    submit: "تجهيز الطلب",
-    note: "عند الإرسال سيُفتح تطبيق البريد لديك برسالة جاهزة — لا يُرسَل شيء تلقائيًا.",
-    success: "تم فتح تطبيق البريد لديك بالطلب جاهزًا للإرسال.",
+    submit: "إرسال الطلب",
+    sending: "جارٍ الإرسال…",
+    note: "يُرسَل طلبك مباشرةً إلى العيادة، ونرد عبر البريد الإلكتروني.",
+    success: "شكرًا لك — تم إرسال طلبك، وسنرد عبر البريد الإلكتروني.",
+    fallback: "جارٍ فتح تطبيق البريد لإكمال إرسال طلبك.",
+    sendError: "تعذّر إرسال طلبك. يرجى المحاولة مرة أخرى أو التواصل عبر واتساب.",
     invalid: "يرجى مراجعة الحقول المحددة والمحاولة مرة أخرى.",
     required: "هذا الحقل مطلوب.",
     directTitle: "التواصل المباشر",

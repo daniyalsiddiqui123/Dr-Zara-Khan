@@ -32,7 +32,10 @@ const initialValues: FormValues = {
 export function AppointmentForm({ locale, dict, email, treatments }: AppointmentFormProps) {
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string>>>({});
-  const [status, setStatus] = useState<"idle" | "success" | "invalid">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "fallback" | "error" | "invalid"
+  >("idle");
+  const [company, setCompany] = useState("");
 
   const schema = useMemo(
     () =>
@@ -52,20 +55,7 @@ export function AppointmentForm({ locale, dict, email, treatments }: Appointment
     setStatus("idle");
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const parsed = schema.safeParse(values);
-    if (!parsed.success) {
-      const next: Partial<Record<keyof FormValues, string>> = {};
-      for (const issue of parsed.error.issues) {
-        const key = issue.path[0] as keyof FormValues | undefined;
-        if (key && !next[key]) next[key] = issue.message;
-      }
-      setErrors(next);
-      setStatus("invalid");
-      return;
-    }
-
+  function openMailtoFallback() {
     const subject =
       locale === "ar"
         ? `طلب موعد — ${values.name}`
@@ -82,7 +72,52 @@ export function AppointmentForm({ locale, dict, email, treatments }: Appointment
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
       lines.join("\n")
     )}`;
-    setStatus("success");
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (status === "sending") return;
+
+    const parsed = schema.safeParse(values);
+    if (!parsed.success) {
+      const next: Partial<Record<keyof FormValues, string>> = {};
+      for (const issue of parsed.error.issues) {
+        const key = issue.path[0] as keyof FormValues | undefined;
+        if (key && !next[key]) next[key] = issue.message;
+      }
+      setErrors(next);
+      setStatus("invalid");
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      const response = await fetch("/api/appointment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, company, locale })
+      });
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        code?: string;
+      };
+
+      if (response.ok && result.ok) {
+        setStatus("success");
+        setValues(initialValues);
+        return;
+      }
+
+      if (result.code === "not_configured") {
+        openMailtoFallback();
+        setStatus("fallback");
+        return;
+      }
+
+      setStatus("error");
+    } catch {
+      setStatus("error");
+    }
   }
 
   const fieldClass = (key: keyof FormValues) =>
@@ -93,6 +128,17 @@ export function AppointmentForm({ locale, dict, email, treatments }: Appointment
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-7">
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="company">Company</label>
+        <input
+          id="company"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+          value={company}
+          onChange={(event) => setCompany(event.target.value)}
+        />
+      </div>
       <div className="grid gap-7 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="eyebrow text-taupe-500">
@@ -202,9 +248,10 @@ export function AppointmentForm({ locale, dict, email, treatments }: Appointment
       <div className="flex flex-col gap-4">
         <button
           type="submit"
-          className="group inline-flex w-full items-center justify-center gap-2 bg-espresso-900 px-7 py-4 text-[0.68rem] font-medium uppercase tracking-label text-ivory-100 transition-colors duration-500 hover:bg-espresso-950 sm:w-auto"
+          disabled={status === "sending"}
+          className="group inline-flex w-full items-center justify-center gap-2 bg-espresso-900 px-7 py-4 text-[0.68rem] font-medium uppercase tracking-label text-ivory-100 transition-colors duration-500 hover:bg-espresso-950 disabled:opacity-60 sm:w-auto"
         >
-          {dict.contact.submit}
+          {status === "sending" ? dict.contact.sending : dict.contact.submit}
           <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100" aria-hidden="true" />
         </button>
         <p className="max-w-md text-[0.7rem] leading-relaxed text-taupe-500">{dict.contact.note}</p>
@@ -212,7 +259,9 @@ export function AppointmentForm({ locale, dict, email, treatments }: Appointment
 
       <div aria-live="polite" className="min-h-[1.25rem]">
         {status === "success" && <p className="text-[0.75rem] text-espresso-700">{dict.contact.success}</p>}
+        {status === "fallback" && <p className="text-[0.75rem] text-espresso-700">{dict.contact.fallback}</p>}
         {status === "invalid" && <p className="text-[0.75rem] text-red-700">{dict.contact.invalid}</p>}
+        {status === "error" && <p className="text-[0.75rem] text-red-700">{dict.contact.sendError}</p>}
       </div>
     </form>
   );

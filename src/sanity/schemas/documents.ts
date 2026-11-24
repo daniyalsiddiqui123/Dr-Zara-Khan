@@ -290,8 +290,7 @@ export const homepage = defineType({
   fieldsets: [
     { name: "hero", title: "1. Top of the home page (hero)" },
     { name: "intro", title: "2. Introduction with Dr. Zara's photo" },
-    { name: "three", title: "3. 3D skin section" },
-    { name: "sections", title: "4. Show or hide sections", options: { collapsible: true } }
+    { name: "sections", title: "3. Show or hide sections", options: { collapsible: true } }
   ],
   fields: [
     defineField({
@@ -344,21 +343,6 @@ export const homepage = defineType({
       ]
     }),
     defineField({
-      name: "three",
-      title: "3D skin section",
-      type: "object",
-      fieldset: "three",
-      fields: [
-        defineField({
-          name: "eyebrow",
-          title: "Small line above the heading",
-          type: "localizedString"
-        }),
-        defineField({ name: "heading", title: "Section heading", type: "localizedString" }),
-        defineField({ name: "body", title: "Paragraph", type: "localizedText" })
-      ]
-    }),
-    defineField({
       name: "showIntro",
       title: "Show the Introduction",
       type: "boolean",
@@ -369,13 +353,6 @@ export const homepage = defineType({
     defineField({
       name: "showPhilosophy",
       title: "Show the Philosophy section",
-      type: "boolean",
-      fieldset: "sections",
-      initialValue: true
-    }),
-    defineField({
-      name: "showThree",
-      title: "Show the 3D skin section",
       type: "boolean",
       fieldset: "sections",
       initialValue: true

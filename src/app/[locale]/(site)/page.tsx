@@ -12,7 +12,6 @@ import {
 import { credentials } from "@/content/about";
 import { editorialQuote } from "@/content/home";
 import { Hero } from "@/components/home/hero";
-import { ThreeExperience } from "@/components/home/three-experience";
 import {
   ClinicSection,
   EditorialBreak,
@@ -68,7 +67,6 @@ export default async function HomePage({
       <Hero locale={locale} content={content.hero} settings={settings} dict={dict} />
       {visibility.intro && <Intro locale={locale} content={content.intro} dict={dict} />}
       {visibility.philosophy && <Philosophy locale={locale} content={content.philosophy} />}
-      {visibility.three && <ThreeExperience locale={locale} content={content.three} />}
       {visibility.expertise && (
         <ExpertiseSection locale={locale} items={expertise} dict={dict} />
       )}

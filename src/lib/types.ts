@@ -144,15 +144,4 @@ export interface HomeContent {
     quote: LocalizedString;
     pillars: Pillar[];
   };
-  three: {
-    eyebrow: LocalizedString;
-    heading: LocalizedString;
-    body: LocalizedString;
-    hint: LocalizedString;
-    disclaimer: LocalizedString;
-    layers: {
-      name: LocalizedString;
-      detail: LocalizedString;
-    }[];
-  };
 }

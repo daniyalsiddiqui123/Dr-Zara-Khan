@@ -332,13 +332,8 @@ const homepageSchema = z.object({
     .object({ eyebrow: ls, heading: ls, image: imageSchema })
     .optional()
     .nullable(),
-  three: z
-    .object({ eyebrow: ls, heading: ls, body: ls })
-    .optional()
-    .nullable(),
   showIntro: z.boolean().optional().nullable(),
   showPhilosophy: z.boolean().optional().nullable(),
-  showThree: z.boolean().optional().nullable(),
   showExpertise: z.boolean().optional().nullable(),
   showTreatments: z.boolean().optional().nullable(),
   showEditorial: z.boolean().optional().nullable(),
@@ -349,7 +344,6 @@ const homepageSchema = z.object({
 export interface HomeVisibility {
   intro: boolean;
   philosophy: boolean;
-  three: boolean;
   expertise: boolean;
   treatments: boolean;
   editorial: boolean;
@@ -360,7 +354,6 @@ export interface HomeVisibility {
 export const defaultVisibility: HomeVisibility = {
   intro: true,
   philosophy: true,
-  three: true,
   expertise: true,
   treatments: true,
   editorial: true,
@@ -371,7 +364,7 @@ export const defaultVisibility: HomeVisibility = {
 export async function getHomepage(): Promise<{ content: HomeContent; visibility: HomeVisibility }> {
   const raw = await cmsFetch<unknown>(
     `*[_type == "homepage"][0]{
-      hero, intro, three, showIntro, showPhilosophy, showThree, showExpertise,
+      hero, intro, showIntro, showPhilosophy, showExpertise,
       showTreatments, showEditorial, showJourney, showClinic
     }`
   );
@@ -395,18 +388,11 @@ export async function getHomepage(): Promise<{ content: HomeContent; visibility:
           en: "Dr. Zara Iqbal Khan",
           ar: "د. زارا إقبال خان"
         }) ?? fallbackHome.intro.image
-    },
-    three: {
-      ...fallbackHome.three,
-      eyebrow: mergeString(data.three?.eyebrow, fallbackHome.three.eyebrow),
-      heading: mergeString(data.three?.heading, fallbackHome.three.heading),
-      body: mergeString(data.three?.body, fallbackHome.three.body)
     }
   };
   const visibility: HomeVisibility = {
     intro: data.showIntro ?? defaultVisibility.intro,
     philosophy: data.showPhilosophy ?? defaultVisibility.philosophy,
-    three: data.showThree ?? defaultVisibility.three,
     expertise: data.showExpertise ?? defaultVisibility.expertise,
     treatments: data.showTreatments ?? defaultVisibility.treatments,
     editorial: data.showEditorial ?? defaultVisibility.editorial,
